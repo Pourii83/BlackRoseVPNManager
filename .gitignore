@@ -1,0 +1,35 @@
+# Build output
+bin/
+obj/
+*.csproj.user
+*.exe
+*.dll
+*.pdb
+*.vsix
+TestResults/
+*.nupkg
+
+# User-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# IDE/Editor Specific
+.vscode/
+*.csproj.user
+*.resharper
+*.idea/
+
+# Sensitive Information
+appsettings.Production.json
+.env
+*.pfx
+
+# Other
+node_modules/
+wwwroot/lib/
+.DS_Store
+Thumbs.db
