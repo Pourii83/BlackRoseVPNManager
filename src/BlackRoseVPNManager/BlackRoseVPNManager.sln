@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36301.6 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackRoseVPNManager", "BlackRoseVPNManager\BlackRoseVPNManager.csproj", "{BBCD0251-A18A-47E8-850A-352570F4CD72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackRoseVPNManager", "BlackRoseVPNManager\BlackRoseVPNManager.csproj", "{0196BD34-5DE8-4DCA-97D3-1204A1511624}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBCD0251-A18A-47E8-850A-352570F4CD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBCD0251-A18A-47E8-850A-352570F4CD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBCD0251-A18A-47E8-850A-352570F4CD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBCD0251-A18A-47E8-850A-352570F4CD72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0196BD34-5DE8-4DCA-97D3-1204A1511624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0196BD34-5DE8-4DCA-97D3-1204A1511624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0196BD34-5DE8-4DCA-97D3-1204A1511624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0196BD34-5DE8-4DCA-97D3-1204A1511624}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7D7F3181-6798-4BCF-9985-0C717434FB5E}
+		SolutionGuid = {5DF9684B-1A32-438A-934F-5CBF0B7307A7}
 	EndGlobalSection
 EndGlobal
