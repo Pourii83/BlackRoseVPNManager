@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>2f54d33c-6d56-4a33-8683-926035190b49</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,9 @@
     </PackageReference>
     <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
+    <PackageReference Include="Sentry.AspNetCore" Version="5.11.2" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.7" />
+    <PackageReference Include="System.Management" Version="9.0.7" />
   </ItemGroup>
 
 </Project>

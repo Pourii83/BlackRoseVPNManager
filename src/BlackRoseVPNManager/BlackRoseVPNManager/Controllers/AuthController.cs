@@ -1,6 +1,7 @@
 ﻿using BlackRoseVPNManager.Domain;
 using BlackRoseVPNManager.Models;
 using BlackRoseVPNManager.Services.Admin;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,10 +40,11 @@ public class AuthController : ControllerBase
     {
         var admin = await _adminService.GetByUsernameAndPassword(model.Username, model.Password);
         if (admin == null)
-            return Unauthorized("Invalid username or password.");
+            return Ok(new AuthModel {Success = false,Message= "نام کاربری یا رمزعبور اشتباه است!" });
 
         var token = Guid.NewGuid().ToString(); 
-        return Ok(new { token });
+        
+        return Ok(new AuthModel { Success = true, Message = "ورود موفقیت‌آمیز بود! 😊" , Token = token});
     }
 
     [HttpGet("check-auth")]

@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import api from '../services/api'
+import { setAuthToken } from '../utils/auth'
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -11,19 +14,45 @@ function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setMessage('')
     
-    // شبیه‌سازی تأخیر شبکه
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    if (username === 'admin' && password === '1234') {
-      setMessage('ورود موفقیت‌آمیز بود!')
-      setTimeout(() => {
-        navigate('/dashboard')
-      }, 1500)
-    } else {
-      setMessage('نام کاربری یا رمز عبور اشتباه است.')
+    try {
+      // درخواست به API برای لاگین
+      const response = await api.post('/api/auth/login', {
+        username,
+        password
+      })
+      
+      if (response.data.success) {
+        setMessage(response.data.message || 'ورود موفقیت‌آمیز بود!')
+        // ذخیره توکن در cookie با تنظیمات امنیتی
+        setAuthToken(response.data.token)
+        
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 2000)
+      } else {
+        setMessage(response.data.message || 'خطا در ورود')
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // خطای سرور
+          setMessage(error.response.data.message || 'خطا در ارتباط با سرور')
+        } else if (error.request) {
+          // خطای شبکه
+          setMessage('خطا در اتصال به سرور')
+        } else {
+          // خطای دیگر
+          setMessage('خطای غیرمنتظره رخ داد')
+        }
+      } else {
+        setMessage('خطای غیرمنتظره رخ داد')
+      }
+      console.error('خطا در لاگین:', error)
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }
 
   return (
@@ -101,7 +130,7 @@ function Login() {
           
           <div className="login-footer">
             <div className="made-with-love">
-              <p>ساخته شده با ❤️ و ☕</p>
+              <p>Black Rose (v1.0.0) ساخته شده با ❤️ و ☕</p>
             </div>
           </div>
         </div>

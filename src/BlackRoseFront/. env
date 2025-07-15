@@ -1,0 +1,9 @@
+# تنظیمات API
+VITE_API_URL=http://localhost:5073
+
+# تنظیمات محیطی  
+VITE_APP_NAME=BlackRose VPN Manager
+VITE_APP_VERSION=1.0.0
+
+# تنظیمات توسعه
+VITE_DEBUG_MODE=true

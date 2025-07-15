@@ -1,11 +1,11 @@
-using BlackRoseVPNManager.Data;
+﻿using BlackRoseVPNManager.Data;
+using BlackRoseVPNManager.Hubs;
 using BlackRoseVPNManager.Services.Admin;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<BlackRoseDbContext>(options =>
@@ -14,11 +14,26 @@ builder.Services.AddDbContext<BlackRoseDbContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 31))
     ));
 
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()
+                  .AllowCredentials();
+        });
+});
+
+builder.Services.AddSignalR();
+
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
 
 var app = builder.Build();
 
@@ -30,8 +45,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseAuthorization();
-
+app.UseCors(myAllowSpecificOrigins); // CORS باید بعد از UseRouting و قبل از UseAuthorization باشد
+app.UseAuthorization(); // UseAuthorization باید بعد از UseRouting و قبل از UseEndpoints باشد
+app.MapHub<SystemMonitorHub>("/systemMonitorHub");
 app.MapControllers();
 
 app.Run();
