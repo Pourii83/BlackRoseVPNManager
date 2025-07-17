@@ -1,4 +1,4 @@
-﻿namespace BlackRoseVPNManager.Models;
+﻿namespace BlackRoseVPNManager.Models.Auth;
 
 public class AuthModel
 {

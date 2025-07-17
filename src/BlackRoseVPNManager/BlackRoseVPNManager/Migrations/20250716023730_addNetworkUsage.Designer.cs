@@ -4,6 +4,7 @@ using BlackRoseVPNManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlackRoseVPNManager.Migrations
 {
     [DbContext(typeof(BlackRoseDbContext))]
-    partial class BlackRoseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250716023730_addNetworkUsage")]
+    partial class addNetworkUsage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

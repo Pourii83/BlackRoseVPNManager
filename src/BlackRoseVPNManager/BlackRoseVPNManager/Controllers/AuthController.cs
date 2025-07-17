@@ -1,5 +1,5 @@
 ﻿using BlackRoseVPNManager.Domain;
-using BlackRoseVPNManager.Models;
+using BlackRoseVPNManager.Models.Auth;
 using BlackRoseVPNManager.Services.Admin;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;

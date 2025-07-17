@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -8,22 +9,64 @@ namespace BlackRoseVPNManager.Hubs;
 
 public class SystemMonitorHub : Hub
 {
+    private Dictionary<string, (long BytesSent, long BytesReceived, DateTime Timestamp)> _lastNetworkStats;
+
+    public SystemMonitorHub()
+    {
+        _lastNetworkStats = new Dictionary<string, (long, long, DateTime)>();
+    }
     public async Task SendSystemUsage()
     {
         var totalRam = GetTotalPhysicalMemory();
         while (true)
         {
+            // دریافت اطلاعات CPU و RAM
             var cpuUsage = await GetCpuUsage();
             var availableRam = await GetUsedMemory();
 
+            // دریافت اطلاعات شبکه
+            var ni = NetworkInterface.GetAllNetworkInterfaces()
+                .FirstOrDefault(ni => ni.OperationalStatus == OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback);
+
+            var networkData = new List<object>();
+            var stats = ni.GetIPv4Statistics();
+            var currentTime = DateTime.UtcNow;
+            var currentBytesSent = stats.BytesSent;
+            var currentBytesReceived = stats.BytesReceived;
+
+            // محاسبه سرعت لحظه‌ای
+            double sentSpeed = 0, receivedSpeed = 0;
+            if (_lastNetworkStats.ContainsKey(ni.Name))
+            {
+                var (lastBytesSent, lastBytesReceived, lastTime) = _lastNetworkStats[ni.Name];
+                var timeDiff = (currentTime - lastTime).TotalSeconds;
+                if (timeDiff > 0)
+                {
+                    sentSpeed = (currentBytesSent - lastBytesSent) / timeDiff; // بایت بر ثانیه
+                    receivedSpeed = (currentBytesReceived - lastBytesReceived) / timeDiff; // بایت بر ثانیه
+                }
+            }
+
+            _lastNetworkStats[ni.Name] = (currentBytesSent, currentBytesReceived, currentTime);
+
+            //networkData.Add(new
+            //{
+            //    InterfaceName = ni.Name,
+            //    SentSpeed = sentSpeed, // بایت بر ثانیه
+            //    ReceivedSpeed = receivedSpeed // بایت بر ثانیه
+            //});
+
+            // ارسال داده‌های CPU، RAM و شبکه به کلاینت‌ها
             await Clients.All.SendAsync("ReceiveSystemUsage", new
             {
                 CpuUsage = cpuUsage,
                 RamUsage = totalRam - availableRam,
-                TotalRam = totalRam
+                TotalRam = totalRam,
+                SentSpeed = sentSpeed,
+                ReceivedSpeed = receivedSpeed
             });
 
-            await Task.Delay(2000);
+            await Task.Delay(2000); // هر 2 ثانیه
         }
     }
 
